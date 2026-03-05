@@ -1,3 +1,4 @@
+
 import discord
 from discord.ext import commands
 import os
@@ -7,10 +8,10 @@ bot = commands.Bot(command_prefix="!", intents=intents)
 
 @bot.event
 async def on_ready():
+    for file in os.listdir("./cogs"):
+        if file.endswith(".py"):
+            await bot.load_extension(f"cogs.{file[:-3]}")
+    await bot.tree.sync()
     print(f"Connecté en tant que {bot.user}")
 
-@bot.command()
-async def ping(ctx):
-    await ctx.send("Pong!")
-
-bot.run(os.getenv("TOKEN")) 
+bot.run(os.getenv("TOKEN"))
